@@ -80,8 +80,9 @@ jobs:
 
       - name: Deploy to Kubernetes
         run: |
+          SHORT_SHA=$(echo "${{ github.sha }}" | cut -c1-7)
           kubectl set image deployment/zahnarzt-kramer-web \
-            web=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.sha }} \
+            web=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${SHORT_SHA} \
             -n web-zahnarzt-kramer
           kubectl rollout status deployment/zahnarzt-kramer-web \
-            -n web-zahnarzt-kramer --timeout=120s
+            -n web-zahnarzt-kramer --timeout=180s
