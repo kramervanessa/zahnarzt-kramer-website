@@ -1,0 +1,139 @@
+---
+import { t, getLocalizedPath } from "@/i18n/translations";
+import type { Lang } from "@/i18n/translations";
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+---
+
+<section id="kontakt" class="py-20">
+  <div class="mx-auto max-w-6xl px-4">
+    <div class="mb-12 text-center">
+      <h2 class="mb-3 text-3xl font-bold text-gray-900 md:text-4xl">
+        {t(lang, "contact.title")}
+      </h2>
+      <p class="mx-auto max-w-xl text-gray-500">
+        {t(lang, "contact.subtitle")}
+      </p>
+    </div>
+
+    <div class="grid gap-8 lg:grid-cols-2">
+      <form
+        class="rounded-2xl border border-pink-100 bg-white p-8 shadow-sm"
+        method="POST"
+        action="#"
+      >
+        <div class="mb-6">
+          <label for="name" class="mb-1.5 block text-sm font-medium text-gray-700">
+            {t(lang, "contact.name")}
+          </label>
+          <input
+            type="text"
+            id="name"
+            name="name"
+            required
+            class="w-full rounded-lg border border-gray-200 px-4 py-2.5 text-sm transition-colors focus:border-pink-300 focus:outline-none focus:ring-2 focus:ring-pink-100"
+          />
+        </div>
+
+        <div class="mb-6 grid gap-4 sm:grid-cols-2">
+          <div>
+            <label for="email" class="mb-1.5 block text-sm font-medium text-gray-700">
+              {t(lang, "contact.email")}
+            </label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              required
+              class="w-full rounded-lg border border-gray-200 px-4 py-2.5 text-sm transition-colors focus:border-pink-300 focus:outline-none focus:ring-2 focus:ring-pink-100"
+            />
+          </div>
+          <div>
+            <label for="phone" class="mb-1.5 block text-sm font-medium text-gray-700">
+              {t(lang, "contact.phone")}
+            </label>
+            <input
+              type="tel"
+              id="phone"
+              name="phone"
+              class="w-full rounded-lg border border-gray-200 px-4 py-2.5 text-sm transition-colors focus:border-pink-300 focus:outline-none focus:ring-2 focus:ring-pink-100"
+            />
+          </div>
+        </div>
+
+        <div class="mb-6">
+          <label for="message" class="mb-1.5 block text-sm font-medium text-gray-700">
+            {t(lang, "contact.message")}
+          </label>
+          <textarea
+            id="message"
+            name="message"
+            rows="4"
+            required
+            class="w-full rounded-lg border border-gray-200 px-4 py-2.5 text-sm transition-colors focus:border-pink-300 focus:outline-none focus:ring-2 focus:ring-pink-100"
+          ></textarea>
+        </div>
+
+        <button
+          type="submit"
+          class="w-full rounded-full bg-pink-500 px-6 py-3 text-sm font-semibold text-white shadow-md shadow-pink-200 transition-all hover:bg-pink-600 hover:shadow-lg hover:shadow-pink-300"
+        >
+          {t(lang, "contact.send")}
+        </button>
+      </form>
+
+      <div class="space-y-6">
+        <div class="rounded-2xl border border-pink-100 bg-white p-6 shadow-sm">
+          <h3 class="mb-3 text-sm font-semibold uppercase tracking-wider text-pink-500">
+            {t(lang, "contact.address")}
+          </h3>
+          <address class="not-italic leading-relaxed text-gray-600">
+            Zahnarztpraxis Vanessa Kramer<br />
+            Musterstrasse 1<br />
+            8001 Zürich
+          </address>
+          <div class="mt-3 space-y-1">
+            <a href="tel:+41441234567" class="block text-pink-500 hover:text-pink-600">
+              +41 44 123 45 67
+            </a>
+            <a href="mailto:praxis@zahnarzt-kramer.ch" class="block text-pink-500 hover:text-pink-600">
+              praxis@zahnarzt-kramer.ch
+            </a>
+          </div>
+        </div>
+
+        <div class="rounded-2xl border border-pink-100 bg-white p-6 shadow-sm">
+          <h3 class="mb-3 text-sm font-semibold uppercase tracking-wider text-pink-500">
+            {t(lang, "contact.hours")}
+          </h3>
+          <div class="space-y-2 text-gray-600">
+            <div class="flex justify-between">
+              <span>{lang === "de" ? "Montag – Freitag" : "Monday – Friday"}</span>
+              <span class="font-medium">08:00 – 18:00</span>
+            </div>
+            <div class="flex justify-between">
+              <span>{lang === "de" ? "Samstag" : "Saturday"}</span>
+              <span class="font-medium">09:00 – 13:00</span>
+            </div>
+            <div class="flex justify-between">
+              <span>{lang === "de" ? "Sonntag" : "Sunday"}</span>
+              <span class="font-medium text-gray-400">{lang === "de" ? "Geschlossen" : "Closed"}</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="overflow-hidden rounded-2xl border border-pink-100 shadow-sm">
+          <div class="flex h-48 items-center justify-center bg-gradient-to-br from-pink-50 to-rose-50">
+            <p class="text-sm text-gray-400">
+              {lang === "de" ? "Karte wird geladen..." : "Map loading..."}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

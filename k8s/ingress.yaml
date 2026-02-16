@@ -1,0 +1,29 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: zahnarzt-kramer-web
+  namespace: web-zahnarzt-kramer
+  labels:
+    app.kubernetes.io/name: zahnarzt-kramer-web
+    app.kubernetes.io/component: frontend
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/proxy-body-size: "10m"
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - new.zahnarzt-kramer.ch
+      secretName: tls-new-zahnarzt-kramer
+  rules:
+    - host: new.zahnarzt-kramer.ch
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: zahnarzt-kramer-web
+                port:
+                  name: http

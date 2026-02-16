@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: web-zahnarzt-kramer
+  labels:
+    app.kubernetes.io/part-of: zahnarzt-kramer-website
+    pod-security.kubernetes.io/enforce: baseline

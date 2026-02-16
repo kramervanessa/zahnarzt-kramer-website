@@ -1,0 +1,98 @@
+---
+import { t, languages, getLocalizedPath } from "@/i18n/translations";
+import type { Lang } from "@/i18n/translations";
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const currentPath = Astro.url.pathname.replace(`/${lang}`, "") || "/";
+
+const navItems = [
+  { key: "nav.home" as const, href: "/" },
+  { key: "nav.services" as const, href: "/#leistungen" },
+  { key: "nav.team" as const, href: "/#team" },
+  { key: "nav.contact" as const, href: "/#kontakt" },
+];
+---
+
+<header class="sticky top-0 z-50 border-b border-pink-100 bg-white/90 backdrop-blur-md">
+  <nav class="mx-auto flex max-w-6xl items-center justify-between px-4 py-4">
+    <a href={getLocalizedPath(lang, "/")} class="flex items-center gap-2">
+      <svg class="h-8 w-8 text-pink-500" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z" />
+      </svg>
+      <span class="text-lg font-semibold text-gray-800">
+        Dr. Vanessa <span class="text-pink-500">Kramer</span>
+      </span>
+    </a>
+
+    <div class="hidden items-center gap-6 md:flex">
+      {navItems.map((item) => (
+        <a
+          href={getLocalizedPath(lang, item.href)}
+          class="text-sm font-medium text-gray-600 transition-colors hover:text-pink-500"
+        >
+          {t(lang, item.key)}
+        </a>
+      ))}
+    </div>
+
+    <div class="flex items-center gap-3">
+      {Object.entries(languages).map(([code, label]) => (
+        <a
+          href={getLocalizedPath(code as Lang, currentPath)}
+          class:list={[
+            "rounded-md px-2 py-1 text-xs font-medium transition-colors",
+            code === lang
+              ? "bg-pink-500 text-white"
+              : "text-gray-500 hover:bg-pink-50 hover:text-pink-500",
+          ]}
+        >
+          {code.toUpperCase()}
+        </a>
+      ))}
+
+      <a
+        href={getLocalizedPath(lang, "/#kontakt")}
+        class="hidden rounded-full bg-pink-500 px-4 py-2 text-sm font-medium text-white shadow-md shadow-pink-200 transition-all hover:bg-pink-600 hover:shadow-lg hover:shadow-pink-300 sm:inline-block"
+      >
+        {t(lang, "hero.cta")}
+      </a>
+    </div>
+
+    <button
+      id="mobile-menu-toggle"
+      class="text-gray-600 md:hidden"
+      aria-label="Menu"
+    >
+      <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+      </svg>
+    </button>
+  </nav>
+
+  <div id="mobile-menu" class="hidden border-t border-pink-100 bg-white px-4 pb-4 md:hidden">
+    {navItems.map((item) => (
+      <a
+        href={getLocalizedPath(lang, item.href)}
+        class="block py-2 text-sm font-medium text-gray-600 transition-colors hover:text-pink-500"
+      >
+        {t(lang, item.key)}
+      </a>
+    ))}
+    <a
+      href={getLocalizedPath(lang, "/#kontakt")}
+      class="mt-2 block rounded-full bg-pink-500 px-4 py-2 text-center text-sm font-medium text-white"
+    >
+      {t(lang, "hero.cta")}
+    </a>
+  </div>
+</header>
+
+<script>
+  const toggle = document.getElementById("mobile-menu-toggle");
+  const menu = document.getElementById("mobile-menu");
+  toggle?.addEventListener("click", () => menu?.classList.toggle("hidden"));
+</script>

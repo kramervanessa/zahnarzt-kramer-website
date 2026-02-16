@@ -1,0 +1,58 @@
+---
+import { t, getLocalizedPath } from "@/i18n/translations";
+import type { Lang } from "@/i18n/translations";
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+---
+
+<section class="relative overflow-hidden py-20 md:py-32">
+  <div class="absolute inset-0 -z-10">
+    <div class="absolute left-1/4 top-0 h-96 w-96 rounded-full bg-pink-200/30 blur-3xl"></div>
+    <div class="absolute bottom-0 right-1/4 h-96 w-96 rounded-full bg-rose-200/30 blur-3xl"></div>
+  </div>
+
+  <div class="mx-auto max-w-6xl px-4 text-center">
+    <div class="mb-6 inline-flex items-center rounded-full border border-pink-200 bg-pink-50 px-4 py-1.5">
+      <span class="mr-2 h-2 w-2 rounded-full bg-pink-500"></span>
+      <span class="text-xs font-medium text-pink-600">
+        {lang === "de" ? "Termine verfügbar" : "Appointments available"}
+      </span>
+    </div>
+
+    <h1 class="mb-6 text-4xl font-bold leading-tight text-gray-900 md:text-6xl">
+      {t(lang, "hero.title").split(" ").map((word, i) =>
+        i === 0 ? (
+          <span>{word} </span>
+        ) : (
+          <span class={i >= 1 ? "text-pink-500" : ""}>{word} </span>
+        )
+      )}
+    </h1>
+
+    <p class="mx-auto mb-10 max-w-2xl text-lg leading-relaxed text-gray-500 md:text-xl">
+      {t(lang, "hero.subtitle")}
+    </p>
+
+    <div class="flex flex-col items-center justify-center gap-4 sm:flex-row">
+      <a
+        href={getLocalizedPath(lang, "/#kontakt")}
+        class="group inline-flex items-center rounded-full bg-pink-500 px-8 py-3.5 text-base font-semibold text-white shadow-lg shadow-pink-200 transition-all hover:bg-pink-600 hover:shadow-xl hover:shadow-pink-300"
+      >
+        {t(lang, "hero.cta")}
+        <svg class="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+        </svg>
+      </a>
+      <a
+        href={getLocalizedPath(lang, "/#leistungen")}
+        class="inline-flex items-center rounded-full border border-pink-200 bg-white px-8 py-3.5 text-base font-medium text-gray-700 transition-all hover:border-pink-300 hover:bg-pink-50"
+      >
+        {t(lang, "services.title")}
+      </a>
+    </div>
+  </div>
+</section>
