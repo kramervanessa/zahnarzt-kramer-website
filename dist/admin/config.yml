@@ -1,0 +1,91 @@
+backend:
+  name: github
+  repo: vkramer/zahnarzt-kramer-website
+  branch: main
+  open_authoring: true
+
+publish_mode: editorial_workflow
+media_folder: public/images/uploads
+public_folder: /images/uploads
+
+locale: de
+
+i18n:
+  structure: multiple_files
+  locales: [de, en]
+  default_locale: de
+
+collections:
+  - name: services
+    label: Leistungen
+    label_singular: Leistung
+    folder: src/content/services
+    create: true
+    slug: "{{lang}}-{{slug}}"
+    i18n: true
+    fields:
+      - { label: Titel, name: title, widget: string, i18n: true }
+      - { label: Beschreibung, name: description, widget: string, i18n: true }
+      - { label: Icon (Emoji), name: icon, widget: string }
+      - label: Sprache
+        name: lang
+        widget: select
+        options: [de, en]
+        default: de
+        i18n: duplicate
+      - { label: Reihenfolge, name: order, widget: number, value_type: int }
+      - { label: Inhalt, name: body, widget: markdown, i18n: true }
+
+  - name: team
+    label: Team
+    label_singular: Teammitglied
+    folder: src/content/team
+    create: true
+    slug: "{{lang}}-{{slug}}"
+    i18n: true
+    fields:
+      - { label: Name, name: name, widget: string, i18n: true }
+      - { label: Rolle, name: role, widget: string, i18n: true }
+      - label: Sprache
+        name: lang
+        widget: select
+        options: [de, en]
+        default: de
+        i18n: duplicate
+      - { label: Reihenfolge, name: order, widget: number, value_type: int }
+      - { label: Beschreibung, name: body, widget: markdown, i18n: true }
+
+  - name: blog
+    label: Aktuelles
+    label_singular: Beitrag
+    folder: src/content/blog
+    create: true
+    slug: "{{lang}}-{{year}}-{{month}}-{{slug}}"
+    i18n: true
+    fields:
+      - { label: Titel, name: title, widget: string, i18n: true }
+      - { label: Beschreibung, name: description, widget: string, i18n: true }
+      - { label: Datum, name: date, widget: datetime }
+      - label: Sprache
+        name: lang
+        widget: select
+        options: [de, en]
+        default: de
+        i18n: duplicate
+      - { label: Inhalt, name: body, widget: markdown, i18n: true }
+
+  - name: pages
+    label: Seiten
+    files:
+      - name: datenschutz
+        label: Datenschutz
+        file: src/content/pages/datenschutz.md
+        fields:
+          - { label: Titel, name: title, widget: string }
+          - { label: Inhalt, name: body, widget: markdown }
+      - name: impressum
+        label: Impressum
+        file: src/content/pages/impressum.md
+        fields:
+          - { label: Titel, name: title, widget: string }
+          - { label: Inhalt, name: body, widget: markdown }

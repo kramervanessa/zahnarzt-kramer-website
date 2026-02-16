@@ -1,0 +1,38 @@
+{
+  "nav": {
+    "home": "Startseite",
+    "services": "Leistungen",
+    "team": "Team",
+    "contact": "Kontakt",
+    "blog": "Aktuelles"
+  },
+  "hero": {
+    "title": "Ihre Zahnärztin in Zürich",
+    "subtitle": "Einfühlsame Zahnmedizin mit modernster Technik — für Ihr strahlendes Lächeln.",
+    "cta": "Termin vereinbaren"
+  },
+  "services": {
+    "title": "Unsere Leistungen",
+    "subtitle": "Umfassende zahnmedizinische Versorgung für die ganze Familie."
+  },
+  "team": {
+    "title": "Unser Team",
+    "subtitle": "Kompetenz und Herzlichkeit — lernen Sie uns kennen."
+  },
+  "contact": {
+    "title": "Kontakt",
+    "subtitle": "Wir freuen uns auf Ihren Besuch.",
+    "name": "Name",
+    "email": "E-Mail",
+    "phone": "Telefon",
+    "message": "Nachricht",
+    "send": "Nachricht senden",
+    "address": "Adresse",
+    "hours": "Öffnungszeiten"
+  },
+  "footer": {
+    "rights": "Alle Rechte vorbehalten.",
+    "privacy": "Datenschutz",
+    "imprint": "Impressum"
+  }
+}

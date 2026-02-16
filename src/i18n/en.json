@@ -1,0 +1,38 @@
+{
+  "nav": {
+    "home": "Home",
+    "services": "Services",
+    "team": "Team",
+    "contact": "Contact",
+    "blog": "News"
+  },
+  "hero": {
+    "title": "Your Dentist in Zurich",
+    "subtitle": "Compassionate dentistry with cutting-edge technology — for your radiant smile.",
+    "cta": "Book Appointment"
+  },
+  "services": {
+    "title": "Our Services",
+    "subtitle": "Comprehensive dental care for the whole family."
+  },
+  "team": {
+    "title": "Our Team",
+    "subtitle": "Expertise and warmth — get to know us."
+  },
+  "contact": {
+    "title": "Contact",
+    "subtitle": "We look forward to welcoming you.",
+    "name": "Name",
+    "email": "Email",
+    "phone": "Phone",
+    "message": "Message",
+    "send": "Send Message",
+    "address": "Address",
+    "hours": "Opening Hours"
+  },
+  "footer": {
+    "rights": "All rights reserved.",
+    "privacy": "Privacy Policy",
+    "imprint": "Legal Notice"
+  }
+}
