@@ -1,0 +1,136 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: weblate-config
+  namespace: weblate
+type: Opaque
+stringData:
+  WEBLATE_ADMIN_EMAIL: "vanessakramer564b@pm.me"
+  WEBLATE_ADMIN_PASSWORD: "Weblate-Admin-2026!"
+  WEBLATE_ADMIN_NAME: "Vanessa Kramer"
+  POSTGRES_PASSWORD: "weblate-pg-2026!"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: weblate
+  namespace: weblate
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: weblate
+  template:
+    metadata:
+      labels:
+        app: weblate
+    spec:
+      securityContext:
+        fsGroup: 1000
+      initContainers:
+        - name: fix-permissions
+          image: busybox:1.37
+          command: ["sh", "-c", "chown -R 1000:1000 /app/data"]
+          volumeMounts:
+            - name: data
+              mountPath: /app/data
+      containers:
+        - name: weblate
+          image: weblate/weblate:5.11
+          ports:
+            - name: http
+              containerPort: 8080
+          env:
+            - name: WEBLATE_SITE_DOMAIN
+              value: "weblate.zahnarzt-kramer.ch"
+            - name: WEBLATE_SITE_TITLE
+              value: "Zahnarzt Kramer Translations"
+            - name: WEBLATE_ENABLE_HTTPS
+              value: "1"
+            - name: POSTGRES_HOST
+              value: "postgres"
+            - name: POSTGRES_PORT
+              value: "5432"
+            - name: POSTGRES_DATABASE
+              value: "weblate"
+            - name: POSTGRES_USER
+              value: "weblate"
+            - name: REDIS_HOST
+              value: "redis"
+            - name: REDIS_PORT
+              value: "6379"
+            - name: WEBLATE_DEFAULT_FROM_EMAIL
+              value: "noreply@zahnarzt-kramer.ch"
+            - name: WEBLATE_REGISTRATION_OPEN
+              value: "0"
+            - name: WEBLATE_MT_DEEPL_KEY
+              value: ""
+          envFrom:
+            - secretRef:
+                name: weblate-config
+          volumeMounts:
+            - name: data
+              mountPath: /app/data
+          resources:
+            requests:
+              cpu: 200m
+              memory: 1Gi
+            limits:
+              cpu: "2"
+              memory: 4Gi
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: weblate-data
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: weblate-data
+  namespace: weblate
+spec:
+  accessModes: [ReadWriteOnce]
+  storageClassName: longhorn-v2-hetzner
+  resources:
+    requests:
+      storage: 10Gi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: weblate
+  namespace: weblate
+spec:
+  selector:
+    app: weblate
+  ports:
+    - name: http
+      port: 80
+      targetPort: http
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: weblate
+  namespace: weblate
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/proxy-body-size: "100m"
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - weblate.zahnarzt-kramer.ch
+      secretName: tls-weblate
+  rules:
+    - host: weblate.zahnarzt-kramer.ch
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: weblate
+                port:
+                  name: http
